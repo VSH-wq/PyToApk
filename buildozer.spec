@@ -140,6 +140,11 @@ fullscreen = 0
 
 # (str) Android entry point, default is ok for Kivy-based app
 #android.entrypoint = org.kivy.android.PythonActivity
+# (list) Permissions
+android.permissions = INTERNET, READ_EXTERNAL_STORAGE, WRITE_EXTERNAL_STORAGE
+
+# (bool) Use --private data storage (True) or --dir public storage (False)
+android.private_storage = False
 
 # (str) Full name including package path of the Java class that implements Android Activity
 # use that parameter together with android.entrypoint to set custom Java class instead of PythonActivity
