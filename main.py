@@ -502,6 +502,11 @@ class PatientManagementApp(App):
         sm.add_widget(self.records_screen)
         sm.current = "home"
         return sm
+
+    def get_data_file_path(self):
+        # Use the app's user_data_dir for a writable file path
+        return os.path.join(self.user_data_dir, "patients.json")
+
     def update_patient_list(self):
         container = self.records_screen.records_container
         container.clear_widgets()
@@ -527,6 +532,7 @@ class PatientManagementApp(App):
         for p in filtered:
             rec = PatientRecord(p, self.confirm_delete_patient, size_hint_y=None, height=40)
             container.add_widget(rec)
+
     def confirm_delete_patient(self, patient_data):
         content = BoxLayout(orientation="vertical", padding=10, spacing=10)
         content.add_widget(ResponsiveLabel(
@@ -545,6 +551,7 @@ class PatientManagementApp(App):
         yes_btn.bind(on_press=lambda instance: self.delete_patient(patient_data, popup))
         no_btn.bind(on_press=popup.dismiss)
         popup.open()
+
     def delete_patient(self, patient_data, popup=None):
         if popup:
             popup.dismiss()
@@ -555,17 +562,24 @@ class PatientManagementApp(App):
         self.save_patients_to_file()
         self.update_patient_list()
         self.show_message("Patient record deleted.")
+
     def save_patients_to_file(self):
-        with open("patients.json", "w") as f:
-            json.dump(self.patients, f)
+        try:
+            with open(self.get_data_file_path(), "w") as f:
+                json.dump(self.patients, f)
+        except Exception as e:
+            print(f"Error saving patients: {e}")
+
     def load_patients(self):
         try:
-            if os.path.exists("patients.json"):
-                with open("patients.json", "r") as f:
+            path = self.get_data_file_path()
+            if os.path.exists(path):
+                with open(path, "r") as f:
                     self.patients = json.load(f)
         except Exception as e:
             print(f"Error loading patients: {e}")
             self.patients = []
+
     def show_message(self, message):
         content = BoxLayout(orientation="vertical", padding=10, spacing=10)
         content.add_widget(ResponsiveLabel(text=message, base_font_size=16))
@@ -576,6 +590,7 @@ class PatientManagementApp(App):
         popup = Popup(title="Information", content=content, size_hint=(0.8, 0.3))
         btn.bind(on_press=popup.dismiss)
         popup.open()
+
     def show_error(self, message):
         content = BoxLayout(orientation="vertical", padding=10, spacing=10)
         col = (1,0,0,1) if message=="Patient name is required" else TEXT_COLOR
