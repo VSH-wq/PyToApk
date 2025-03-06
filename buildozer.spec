@@ -19,7 +19,7 @@ source.include_exts = py, kv, png, jpg
 entrypoint = Clinic MGR38.py
 
 # (list) Application requirements
-requirements = python3, kivy
+requirements = python3, kivy==2.1.0
 
 # (str) Supported orientation (one of: landscape, portrait or all)
 orientation = portrait
