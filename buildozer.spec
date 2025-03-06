@@ -19,7 +19,7 @@ source.include_exts = py, kv, png, jpg
 entrypoint = main.py
 
 # (list) Application requirements
-requirements = python3, kivy==2.0.0
+requirements = python3, kivy==2.3.1, pillow
 
 # (str) Supported orientation (one of: landscape, portrait or all)
 orientation = portrait
