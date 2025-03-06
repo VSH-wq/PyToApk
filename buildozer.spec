@@ -16,7 +16,7 @@ source.include_exts = py, kv, png, jpg
 
 # (str) The main .py file to use as the entry point.
 # Since your file is named "Clinic MGR38.py", we specify it here.
-entrypoint = Clinic MGR38.py
+entrypoint = main.py
 
 # (list) Application requirements
 requirements = python3, kivy==2.1.0
